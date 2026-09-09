@@ -66,3 +66,160 @@ test('verify search with a valid engineer name', async ({page}) => {
   await page.getByRole('textbox', { name: 'Search by name or skill…' }).fill('jack sparrow');
   await expect(page.getByRole('heading', { name: 'Jack sparrow', exact: true })).toBeVisible();
 });
+
+test('verify search using a valid engineer skill', async ({page}) => {
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await page.getByRole('button', { name: 'Engineers' }).click();
+  await page.getByRole('textbox', { name: 'Search' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).fill('geotechnician');
+  await expect(page.getByText('Geotechnical')).toBeVisible();
+});
+
+test('verify search with partial engineer name', async ({page}) => {
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await page.getByRole('button', { name: 'Engineers' }).click();
+  await page.getByRole('textbox', { name: 'Search' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).fill('jack');
+  await expect(page.getByRole('heading', { name: 'Jack sparrow', exact: true })).toBeVisible();
+});
+
+test('verify search with partial engineer skill', async ({page}) => {
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await page.getByRole('button', { name: 'Engineers' }).click();
+  await page.getByRole('textbox', { name: 'Search' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).fill('geotechn');
+  await expect(page.getByText('Geotechnical')).toBeVisible();
+});
+
+test('verify search using valid contractor name', async ({page}) => {
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await page.getByRole('button', { name: 'Contractors' }).click();
+  await page.getByRole('textbox', { name: 'Search' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).fill('MR Contractor');
+  await expect(page.getByRole('heading', { name: 'MR Contractor', exact: true })).toBeVisible();
+});
+
+test('verify search using valid contractor skill', async ({page}) => {
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await page.getByRole('button', { name: 'Contractors' }).click();
+  await page.getByRole('textbox', { name: 'Search' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).fill('building');
+  await expect(page.getByText('building')).toBeVisible();
+});
+
+test('verify search using partial contractor name', async ({page}) => {
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await page.getByRole('button', { name: 'Contractors' }).click();
+  await page.getByRole('textbox', { name: 'Search' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).fill('MR');
+  await expect(page.getByRole('heading', { name: 'MR Contractor', exact: true })).toBeVisible();
+});
+
+test('verify search using partial contractor skill', async ({page}) => {
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await page.getByRole('button', { name: 'Contractors' }).click();
+  await page.getByRole('textbox', { name: 'Search' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).fill('build');
+  await expect(page.getByText('building')).toBeVisible();
+});
+
+test('verify search using valid supplier name', async ({page}) => {
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await page.getByRole('button', { name: 'Suppliers' }).click();
+  await page.getByRole('textbox', { name: 'Search' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).fill('Himalayan Cement & Steel Depot');
+  await expect(page.getByRole('heading', { name: 'Himalayan Cement & Steel Depot', exact: true })).toBeVisible();
+});
+
+test('verify search using valid product name', async ({page}) => {
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await page.getByRole('button', { name: 'suppliers' }).click();
+  await page.getByRole('textbox', { name: 'Search' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).fill('Cement');
+  await expect(page.getByText('Cement')).toBeVisible();
+});
+
+test('verify search with empty search', async ({page}) => {
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await expect(page.getByRole('textbox', { name: 'Search by name or skill…' })).toHaveValue('');
+});
+
