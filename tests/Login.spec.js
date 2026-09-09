@@ -79,3 +79,13 @@ test('verify login with OR 1=1 in password field and valid email', async ({ page
     const password = await page.getByRole('textbox', { name: 'Password' });
     const message = await password.evaluate(el => el.validationMessage);
 });
+
+test('Verify login with valid email and invalid password', async ({ page }) => {
+    await page.goto('https://dev6.yigserver.com:3000/login');
+    await page.getByRole('textbox', { name: 'Email address' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+    await page.getByRole('textbox', { name: 'Password' }).click();
+    await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@');
+    await page.getByRole('button', { name: 'Sign In →' }).click();
+    await expect(page.getByText('These credentials do not match our records.')).toBeVisible();
+});
