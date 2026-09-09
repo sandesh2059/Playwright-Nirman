@@ -36,3 +36,25 @@ test('Verify Login with only filling password field', async ({ page }) => {
     const email = await page.getByRole('textbox', { name: 'Email address' });
     const message = await email.evaluate(el => el.validationMessage);
 });
+
+test('Verify Login with unregistered email address and valid password', async ({ page }) => {
+    await page.goto('https://dev6.yigserver.com:3000/login');
+    await page.getByRole('textbox', { name: 'Email address' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).fill('jacks@example');
+    await page.getByRole('textbox', { name: 'Password' }).click();
+    await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+    await page.getByRole('button', { name: 'Sign In →' }).click();
+    await expect(page.getByText('These credentials do not match our records.')).toBeVisible();
+});
+
+test('Verify Login with missing domain in email address and valid password', async ({ page }) => {
+    await page.goto('https://dev6.yigserver.com:3000/login');
+    await page.getByRole('textbox', { name: 'Email address' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).fill('jacks@example');
+    await page.getByRole('textbox', { name: 'Password' }).click();
+    await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+    await page.getByRole('button', { name: 'Sign In →' }).click();
+    const email = await page.getByRole('textbox', { name: 'Email address' });
+    const message = await email.evaluate(el => el.validationMessage);
+});
+
