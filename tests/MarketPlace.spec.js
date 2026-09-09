@@ -223,3 +223,85 @@ test('verify search with empty search', async ({page}) => {
   await expect(page.getByRole('textbox', { name: 'Search by name or skill…' })).toHaveValue('');
 });
 
+test('Verify search with leading or trailing spaces', async ({page}) => {
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await page.getByRole('button', { name: 'Contractors' }).click();
+  await page.getByRole('textbox', { name: 'Search' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).fill('   MR   ');
+  await expect(page.getByRole('heading', { name: 'MR Contractor', exact: true })).toBeVisible();
+});
+
+test('Verify search with different letter case', async ({page}) => {
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await page.getByRole('button', { name: 'Contractors' }).click();
+  await page.getByRole('textbox', { name: 'Search' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).fill('mR Contractor');
+  await expect(page.getByRole('heading', { name: 'MR Contractor', exact: true })).toBeVisible();
+});
+
+test('Verify engineer name or skill in other sections', async ({page}) => {
+  //Note that the name or skill that you are searching should not match with any name or skill of contractors or suppliers. If it matches, then the test will fail.
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await page.getByRole('button', { name: 'Contractors' }).click();
+  await page.getByRole('textbox', { name: 'Search' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).fill('Jack sparrow');
+  await expect(page.getByText('No results')).toBeVisible();
+});
+
+test('verify contractor name or skill in other sections', async ({page}) => {
+  //Note that the name or skill that you are searching should not match with any name or skill of engineers or suppliers. If it matches, then the test will fail.
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await page.getByRole('button', { name: 'Engineers' }).click();
+  await page.getByRole('textbox', { name: 'Search' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).fill('MR Contractor');
+  await expect(page.getByText('No results')).toBeVisible();
+});
+
+test('verify supplier name or skill in other sections', async ({page}) => {
+  //Note that the name or skill that you are searching should not match with any name or skill of engineers or contractors. If it matches, then the test will fail.
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await page.getByRole('button', { name: 'Engineers' }).click();
+  await page.getByRole('textbox', { name: 'Search' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).click();
+  await page.getByRole('textbox', { name: 'Search by name or skill…' }).fill('Himalayan Cement & Steel Depot');
+  await expect(page.getByText('No results')).toBeVisible();
+});
