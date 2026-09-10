@@ -81,3 +81,46 @@ test('edit a project', async ({page}) => {
     await expect(page.getByRole('heading', { name: 'C villa' })).toBeVisible();
 });
 
+
+/* test('verify if Proposal is received', async ({ page }) => {
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack43@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Leads' }).click();
+  await page.getByRole('link', { name: 'Civil Engineering active B' }).first().click();
+  await page.getByRole('button', { name: 'Submit Quotation' }).click();
+  await page.getByRole('spinbutton', { name: '1200000' }).click();
+  await page.getByRole('spinbutton', { name: '1200000' }).fill('15000000');
+  await page.getByRole('textbox', { name: 'Weeks' }).click();
+  await page.getByRole('textbox', { name: 'Weeks' }).fill('4');
+  await page.getByRole('textbox', { name: 'Describe your approach,' }).click();
+  await page.getByRole('textbox', { name: 'Describe your approach,' }).fill('i want to do this project');
+  await page.getByRole('button', { name: 'Send Quotation' }).click();
+  await page.getByRole('link', { name: 'Your profile' }).click();
+  await page.getByRole('button', { name: 'Sign out' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Projects', exact: true }).click();
+  await page.getByRole('link', { name: 'Civil Engineering active B villa Kathmandu NPR 1Cr – NPR 2Cr 1 proposals 1h ago', first: true }).click();
+  await expect(page.getByText('Jack sparrowCivil Engineer 5.0submittedNPR 15,000,0004 ChatShortlist Reject')).toBeVisible();
+}); */
+
+test('Verify proposal is received or not', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'I already have an account' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+    await page.getByRole('textbox', { name: 'Password' }).click();
+    await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+    await page.getByRole('button', { name: 'Sign In →' }).click();
+    await page.getByRole('link', { name: 'Projects', exact: true }).click();
+    await page.getByRole('link', { name: 'active sano ghar NPR 6,554 –' }).click();
+    await expect(page.getByText('Elon Musk')).toBeVisible();
+});
