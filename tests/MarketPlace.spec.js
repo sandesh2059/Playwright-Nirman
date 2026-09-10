@@ -335,3 +335,20 @@ test('verify search results after changing location in filter', async ({page}) =
   await expect(page.getByRole('button', { name: '1' })).toBeVisible();
   await expect(page.getByText('Kathmandu').first()).toBeVisible();
 });
+
+test('verify search results after changing minumum rating in filter', async ({page}) => {
+  await page.goto('https://dev6.yigserver.com:3000/');
+  await page.getByRole('link', { name: 'I already have an account' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).click();
+  await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');  
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+  await page.getByRole('button', { name: 'Sign In →' }).click();
+  await page.getByRole('link', { name: 'Market', exact: true }).click();
+  await page.getByRole('button').filter({ hasText: /^$/ }).click();
+  await page.getByRole('combobox').nth(1).selectOption('4');
+  await page.getByRole('combobox').first().selectOption('');
+  await page.getByRole('button', { name: 'Apply' }).click();
+  await expect(page.getByRole('button', { name: '1' })).toBeVisible();
+  await expect(page.getByText('4.0') ).toBeVisible();
+});
