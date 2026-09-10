@@ -139,3 +139,31 @@ test('shortlist the proposal', async ({page}) => {
 
     
 });
+
+test('reject the proposal', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'I already have an account' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+    await page.getByRole('textbox', { name: 'Password' }).click();
+    await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+    await page.getByRole('button', { name: 'Sign In →' }).click();
+    await page.getByRole('link', { name: 'Projects', exact: true }).click();
+    await page.getByRole('link', { name: 'active sano ghar NPR 6,554 –' }).click();
+    await page.getByRole('button', { name: 'Reject' }).first().click();
+    await expect(page.getByText('Elon MuskStructural Engineer 0.0rejected')).toBeVisible();
+});
+
+test('accept the proposal', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'I already have an account' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).fill('jack16@example.com');
+    await page.getByRole('textbox', { name: 'Password' }).click();
+    await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+    await page.getByRole('button', { name: 'Sign In →' }).click();
+    await page.getByRole('link', { name: 'Projects', exact: true }).click();
+    await page.getByRole('link', { name: 'active sano ghar NPR 6,554 –' }).click();
+    await page.getByRole('button', { name: 'Accept' }).first().click();
+    await expect(page.getByText('Elon MuskStructural Engineer 0.0accepted')).toBeVisible();
+});
