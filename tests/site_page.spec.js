@@ -159,3 +159,24 @@ test('verify adding new milestone as delayed', async ({page}) => {
     await page.getByRole('button', { name: 'Save' }).click();
     await expect(page.getByText(`${MilestoneName}Due 2026-09-11delayed`)).toBeVisible();
 });
+
+test('verify adding new milestone as pending', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'I already have an account' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).fill('jack21@example.com');
+    await page.getByRole('textbox', { name: 'Password' }).click();
+    await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+    await page.getByRole('button', { name: 'Sign In →' }).click();
+    await page.getByRole('link', { name: 'Sites' }).click();
+    await page.getByRole('link', { name: 'Sano ghar upgrade 1789108405840 Jack sparrow active Kathmandu 0%' }).click();
+    await page.getByRole('button', { name: 'Milestones' }).click();
+    await page.getByRole('button', { name: 'Add' }).click();
+    const MilestoneName = `Milestone ${Date.now()}`;
+    await page.getByRole('textbox', { name: 'Foundation complete' }).click();
+    await page.getByRole('textbox', { name: 'Foundation complete' }).fill(MilestoneName);
+    await page.locator('input[type="date"]').fill('2026-09-11');
+    await page.getByRole('combobox').selectOption('pending');
+    await page.getByRole('button', { name: 'Save' }).click();
+    await expect(page.getByText(`${MilestoneName}Due 2026-09-11pending`)).toBeVisible();
+});
