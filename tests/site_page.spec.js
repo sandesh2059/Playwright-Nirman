@@ -226,3 +226,37 @@ test('Verify adding a new expense', async ({page}) => {
     await expect(page.getByRole('paragraph').filter({ hasText: 'NPR' })).toBeVisible();
 });
 
+test('delete and existing expense', async ({page}) => {
+
+    // there is no delete button so this test will fail
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'I already have an account' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).fill('jack21@example.com');
+    await page.getByRole('textbox', { name: 'Password' }).click();
+    await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+    await page.getByRole('button', { name: 'Sign In →' }).click();
+    await page.getByRole('link', { name: 'Sites' }).click();
+    await page.getByRole('link', { name: 'Sano ghar upgrade 1789108405840 Jack sparrow active Kathmandu 0%' }).click();
+    await page.getByRole('button', { name: 'Expenses' }).click();
+    await page.getByRole('button', { name: 'Delete' }).click();
+    await page.getByRole('button', { name: 'Yes' }).click();
+    await expect(page.getByRole('paragraph').filter({ hasText: 'NPR' })).not.toBeVisible();
+});
+
+test('delete a site', async ({page}) => {
+
+    //there is no delete option so this test will fail
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'I already have an account' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).fill('jack21@example.com');
+    await page.getByRole('textbox', { name: 'Password' }).click();
+    await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+    await page.getByRole('button', { name: 'Sign In →' }).click();
+    await page.getByRole('link', { name: 'Sites' }).click();
+    await page.getByRole('link', { name: 'Sano ghar upgrade 1789108405840 Jack sparrow active Kathmandu 0%' }).click();
+    await page.getByRole('button', { name: 'Delete' }).click();
+    await page.getByRole('button', { name: 'Yes' }).click();
+    await expect(page.getByRole('link', { name: 'Sano ghar upgrade 1789108405840 Jack sparrow active Kathmandu 0%' })).not.toBeVisible();
+});
