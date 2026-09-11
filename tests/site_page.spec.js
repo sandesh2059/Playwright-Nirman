@@ -184,7 +184,7 @@ test('verify adding new milestone as pending', async ({page}) => {
 test('update a milestone', async ({page}) => {
 
     // there is no edit button so this test fails
-    
+
     await page.goto('https://dev6.yigserver.com:3000/');
     await page.getByRole('link', { name: 'I already have an account' }).click();
     await page.getByRole('textbox', { name: 'Email address' }).click();
@@ -205,4 +205,24 @@ test('update a milestone', async ({page}) => {
     await expect(page.getByText(`${MilestoneName}Due 2026-09-11in progress`)).toBeVisible();
 });
 
+test('Verify adding a new expense', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'I already have an account' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).click();
+    await page.getByRole('textbox', { name: 'Email address' }).fill('jack21@example.com');
+    await page.getByRole('textbox', { name: 'Password' }).click();
+    await page.getByRole('textbox', { name: 'Password' }).fill('Testuser@12');
+    await page.getByRole('button', { name: 'Sign In →' }).click();
+    await page.getByRole('link', { name: 'Sites' }).click();
+    await page.getByRole('link', { name: 'Sano ghar upgrade 1789108405840 Jack sparrow active Kathmandu 0%' }).click();
+    await page.getByRole('button', { name: 'Expenses' }).click();
+    await page.getByRole('button', { name: 'Add' }).click();
+    await page.getByRole('spinbutton', { name: '50000' }).click();
+    await page.getByRole('spinbutton', { name: '50000' }).fill('5000');
+    await page.locator('input[type="date"]').fill('2026-09-06');
+    await page.getByRole('textbox', { name: 'Cement purchase' }).click();
+    await page.getByRole('textbox', { name: 'Cement purchase' }).fill('Paper purchased');
+    await page.getByRole('button', { name: 'Save' }).click();
+    await expect(page.getByRole('paragraph').filter({ hasText: 'NPR' })).toBeVisible();
+});
 
