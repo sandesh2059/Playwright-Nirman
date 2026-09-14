@@ -156,4 +156,13 @@ test('verify working of steel estimator by filling fields with negative values',
     await expect(page.getByText('The volume cuft field must be at least 0.1.')).toBeVisible();
 });
 
-
+test('verify working of steel estimator by filling different area used in building', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Steel Estimator TMT rod for a' }).click();
+    await page.getByRole('spinbutton', { name: 'Concrete volume' }).click();
+    await page.getByRole('spinbutton', { name: 'Concrete volume' }).fill('500');
+    await page.getByLabel('Where is it used?').selectOption('column');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('2,831.7kg · Steel (TMT)')).toBeVisible();
+});
