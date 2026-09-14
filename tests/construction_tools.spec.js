@@ -365,3 +365,43 @@ test('verify working of cost estimator by changing finish quality to different a
     await page.getByRole('button', { name: 'Calculate' }).click();
     await expect(page.getByText('NPR 48,75,000NPR · Estimated')).toBeVisible();
 });
+
+test('verify working of land area converter', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Land Area Converter Ropani ·' }).click();
+    await page.getByRole('spinbutton', { name: 'Amount' }).click();
+    await page.getByRole('spinbutton', { name: 'Amount' }).fill('12');
+    await page.getByLabel('From unit').selectOption('kattha');
+    await page.getByLabel('To unit').selectOption('aana');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('12 Kattha equals127.8 AanaIn')).toBeVisible();
+});
+
+test('verify working of land area converter by leaving all fields empty', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Land Area Converter Ropani ·' }).click();
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The value field is required.')).toBeVisible();
+});
+
+test('verify working of land area converter by filling fields with negative values', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Land Area Converter Ropani ·' }).click();
+    await page.getByRole('spinbutton', { name: 'Amount' }).click();
+    await page.getByRole('spinbutton', { name: 'Amount' }).fill('-12');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The value field must be at least 0.')).toBeVisible();
+});
+
+test('verify working of land area converter by filling fields with 0', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Land Area Converter Ropani ·' }).click();
+    await page.getByRole('spinbutton', { name: 'Amount' }).click();
+    await page.getByRole('spinbutton', { name: 'Amount' }).fill('0');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('0 Kattha equals0 AanaIn')).not.toBeVisible();
+});
