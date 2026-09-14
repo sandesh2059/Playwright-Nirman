@@ -166,3 +166,20 @@ test('verify working of steel estimator by filling different area used in buildi
     await page.getByRole('button', { name: 'Calculate' }).click();
     await expect(page.getByText('2,831.7kg · Steel (TMT)')).toBeVisible();
 });
+
+test('verify working of brick calculator', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Brick Calculator Bricks' }).click();
+    await page.getByText('Wall lengthftHow long is the').click();
+    await page.getByRole('spinbutton', { name: 'Wall length' }).click();
+    await page.getByRole('spinbutton', { name: 'Wall length' }).fill('30');
+    await page.getByRole('spinbutton', { name: 'Wall height' }).click();
+    await page.getByRole('spinbutton', { name: 'Wall height' }).fill('10');
+    await page.getByRole('spinbutton', { name: 'Wall thickness' }).click();
+    await page.getByRole('spinbutton', { name: 'Wall thickness' }).fill('0.75');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('3,190pieces · Bricks')).toBeVisible();
+    await expect(page.getByText('12bags · Cement (mortar)')).toBeVisible();
+    await expect(page.getByText('59.85cu.ft · Sand (mortar)')).toBeVisible();
+});
