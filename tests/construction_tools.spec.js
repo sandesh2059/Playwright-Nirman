@@ -101,3 +101,29 @@ test('working of concrete calculator by filling fields with alphabets or symbols
     await expect(page.getByText('The width field is required.')).toBeVisible();
     await expect(page.getByText('The thickness field is required.')).toBeVisible();
 })
+
+test('working of concrete calculator by filling fields with 0', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Concrete Calculator Cement,' }).click();
+    await page.getByRole('spinbutton', { name: 'Length' }).click();
+    await page.getByRole('spinbutton', { name: 'Length' }).fill('0');
+    await page.getByRole('spinbutton', { name: 'Width' }).click();
+    await page.getByRole('spinbutton', { name: 'Width' }).fill('0');
+    await page.getByRole('spinbutton', { name: 'Thickness' }).click();
+    await page.getByRole('spinbutton', { name: 'Thickness' }).fill('0');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The length field must be at least 0.1.')).toBeVisible();
+    await expect(page.getByText('The width field must be at least 0.1.')).toBeVisible();
+    await expect(page.getByText('The thickness field must be at least 0.1.')).toBeVisible();
+})
+
+test('verify working of steel estimator', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Steel Estimator TMT rod for a' }).click();
+    await page.getByRole('spinbutton', { name: 'Concrete volume' }).click();
+    await page.getByRole('spinbutton', { name: 'Concrete volume' }).fill('500');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('1,415.8kg · Steel (TMT)')).toBeVisible();
+});
