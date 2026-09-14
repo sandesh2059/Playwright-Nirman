@@ -64,3 +64,40 @@ test('working of concrete calculator by only filling thickness field', async ({p
     await expect(page.getByText('The length field is required.')).toBeVisible();
     await expect(page.getByText('The width field is required.')).toBeVisible();
 })
+
+test('working of concrete calculator by filling fields with negative values', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Concrete Calculator Cement,' }).click();
+    await page.getByRole('spinbutton', { name: 'Length' }).click();
+    await page.getByRole('spinbutton', { name: 'Length' }).fill('-10');
+    await page.getByRole('spinbutton', { name: 'Width' }).click();
+    await page.getByRole('spinbutton', { name: 'Width' }).fill('-10');
+    await page.getByRole('spinbutton', { name: 'Thickness' }).click();
+    await page.getByRole('spinbutton', { name: 'Thickness' }).fill('-0.5');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The length field must be at least 0.1.')).toBeVisible();
+    await expect(page.getByText('The width field must be at least 0.1.')).toBeVisible();
+    await expect(page.getByText('The thickness field must be at least 0.1.')).toBeVisible();
+})
+
+test('working of concrete calculator by filling fields with alphabets or symbols', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Concrete Calculator Cement,' }).click();
+    const length = page.getByRole('spinbutton', { name: 'Length' });
+    const width = page.getByRole('spinbutton', { name: 'Width' });
+    const thickness = page.getByRole('spinbutton', { name: 'Thickness' });
+
+    // await length.fill('abc');
+    // await width.fill('abc');
+    // await thickness.fill('abc');
+
+    await expect(length).toHaveValue('');
+    await expect(width).toHaveValue('');
+    await expect(thickness).toHaveValue('');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The length field is required.')).toBeVisible();
+    await expect(page.getByText('The width field is required.')).toBeVisible();
+    await expect(page.getByText('The thickness field is required.')).toBeVisible();
+})
