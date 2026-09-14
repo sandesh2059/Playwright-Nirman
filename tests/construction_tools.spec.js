@@ -209,3 +209,108 @@ test('verify working of brick calculator by leaving all fields empty', async ({p
     await expect(page.getByText('The thickness field is required.')).toBeVisible();
 
 });
+
+test('verify working of tile calculator', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Tile Calculator Tiles needed' }).click();
+    await page.getByRole('spinbutton', { name: 'Area to cover' }).click();
+    await page.getByRole('spinbutton', { name: 'Area to cover' }).fill('400');
+    await page.getByRole('spinbutton', { name: 'Tile width' }).click();
+    await page.getByRole('spinbutton', { name: 'Tile width' }).fill('24');
+    await page.getByRole('spinbutton', { name: 'Tile height' }).click();
+    await page.getByRole('spinbutton', { name: 'Tile height' }).fill('24');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('111pieces · Tiles')).toBeVisible();
+});
+
+test('verify working of tile calculator by leaving all fields empty', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Tile Calculator Tiles needed' }).click();
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The area sqft field is')).toBeVisible();
+    await expect(page.getByText('The tile width in field is')).toBeVisible();
+    await expect(page.getByText('The tile height in field is')).toBeVisible();
+
+});
+
+test('verify working of tile calculator by filling fields with negative values', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Tile Calculator Tiles needed' }).click();
+    await page.getByRole('spinbutton', { name: 'Area to cover' }).click();
+    await page.getByRole('spinbutton', { name: 'Area to cover' }).fill('-400');
+    await page.getByRole('spinbutton', { name: 'Tile width' }).click();
+    await page.getByRole('spinbutton', { name: 'Tile width' }).fill('-24');
+    await page.getByRole('spinbutton', { name: 'Tile height' }).click();
+    await page.getByRole('spinbutton', { name: 'Tile height' }).fill('-24');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The area sqft field must be at least 1.')).toBeVisible();
+    await expect(page.getByText('The tile width in field must be at least 1.')).toBeVisible();
+    await expect(page.getByText('The tile height in field must be at least 1.')).toBeVisible();
+    
+});
+
+test('verify working of tile calculator by filling fields with 0', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Tile Calculator Tiles needed' }).click();
+    await page.getByRole('spinbutton', { name: 'Area to cover' }).click();
+    await page.getByRole('spinbutton', { name: 'Area to cover' }).fill('0');
+    await page.getByRole('spinbutton', { name: 'Tile width' }).click();
+    await page.getByRole('spinbutton', { name: 'Tile width' }).fill('0');
+    await page.getByRole('spinbutton', { name: 'Tile height' }).click();
+    await page.getByRole('spinbutton', { name: 'Tile height' }).fill('0');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The area sqft field must be at least 1.')).toBeVisible();
+    await expect(page.getByText('The tile width in field must be at least 1.')).toBeVisible();
+    await expect(page.getByText('The tile height in field must be at least 1.')).toBeVisible();
+    
+});
+
+test('verify working of paint calculator', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Paint Calculator Paint needed' }).click();
+    await page.getByRole('spinbutton', { name: 'Wall area' }).click();
+    await page.getByRole('spinbutton', { name: 'Wall area' }).fill('1300');
+    await page.getByRole('spinbutton', { name: 'Number of coats' }).click();
+    await page.getByRole('spinbutton', { name: 'Number of coats' }).fill('2');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('21.7litres · Paint')).toBeVisible();
+});
+
+test('verify working of paint calculator by leaving all fields empty', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Paint Calculator Paint needed' }).click();
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The wall area sqft field is')).toBeVisible();
+});
+
+test('verify working of paint calculator by filling fields with negative values', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Paint Calculator Paint needed' }).click();
+    await page.getByRole('spinbutton', { name: 'Wall area' }).click();
+    await page.getByRole('spinbutton', { name: 'Wall area' }).fill('-1300');
+    await page.getByRole('spinbutton', { name: 'Number of coats' }).click();
+    await page.getByRole('spinbutton', { name: 'Number of coats' }).fill('-2');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The wall area sqft field must be at least 1.')).toBeVisible();
+    await expect(page.getByText('The coats field must be at least 1.')).toBeVisible();
+});
+
+test('verify working of paint calculator by filling fields with 0', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Paint Calculator Paint needed' }).click();
+    await page.getByRole('spinbutton', { name: 'Wall area' }).click();
+    await page.getByRole('spinbutton', { name: 'Wall area' }).fill('0');
+    await page.getByRole('spinbutton', { name: 'Number of coats' }).click();
+    await page.getByRole('spinbutton', { name: 'Number of coats' }).fill('0');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The wall area sqft field must be at least 1.')).toBeVisible();
+    await expect(page.getByText('The coats field must be at least 1.')).toBeVisible();
+});
