@@ -314,3 +314,54 @@ test('verify working of paint calculator by filling fields with 0', async ({page
     await expect(page.getByText('The wall area sqft field must be at least 1.')).toBeVisible();
     await expect(page.getByText('The coats field must be at least 1.')).toBeVisible();
 });
+
+test('verify working of cost estimator ', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Cost Estimator Rough building' }).click();
+    await page.getByRole('spinbutton', { name: 'Built-up area' }).click();
+    await page.getByRole('spinbutton', { name: 'Built-up area' }).fill('1600');
+    await page.getByLabel('Finish quality').selectOption('basic');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('NPR 34,00,000NPR · Estimated')).toBeVisible();
+    
+});
+
+test('verify working of cost estimator by leaving all fields empty', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Cost Estimator Rough building' }).click();
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The area sqft field is required.')).toBeVisible();
+});
+
+test('verify working of cost estimator by filling fields with negative values', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Cost Estimator Rough building' }).click();
+    await page.getByRole('spinbutton', { name: 'Built-up area' }).click();
+    await page.getByRole('spinbutton', { name: 'Built-up area' }).fill('-1600');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The area sqft field must be at least 1.')).toBeVisible();
+});
+
+test('verify working of cost estimator by filling fields with 0', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Cost Estimator Rough building' }).click();
+    await page.getByRole('spinbutton', { name: 'Built-up area' }).click();
+    await page.getByRole('spinbutton', { name: 'Built-up area' }).fill('0');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The area sqft field must be at least 1.')).toBeVisible();
+});
+
+test('verify working of cost estimator by changing finish quality to different available options', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Cost Estimator Rough building' }).click();
+    await page.getByRole('spinbutton', { name: 'Built-up area' }).click();
+    await page.getByRole('spinbutton', { name: 'Built-up area' }).fill('1500');
+    await page.getByLabel('Finish quality').selectOption('premium');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('NPR 48,75,000NPR · Estimated')).toBeVisible();
+});
