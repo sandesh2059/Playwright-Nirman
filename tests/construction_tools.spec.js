@@ -183,3 +183,29 @@ test('verify working of brick calculator', async ({page}) => {
     await expect(page.getByText('12bags · Cement (mortar)')).toBeVisible();
     await expect(page.getByText('59.85cu.ft · Sand (mortar)')).toBeVisible();
 });
+
+test('verify working of brick calculator by filling fields with negative values', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Brick Calculator Bricks' }).click();
+    await page.getByRole('spinbutton', { name: 'Wall length' }).click();
+    await page.getByRole('spinbutton', { name: 'Wall length' }).fill('-30');
+    await page.getByRole('spinbutton', { name: 'Wall height' }).click();
+    await page.getByRole('spinbutton', { name: 'Wall height' }).fill('-10');
+    await page.getByRole('spinbutton', { name: 'Wall thickness' }).click();
+    await page.getByRole('spinbutton', { name: 'Wall thickness' }).fill('-0.75');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The length field must be at least 0.1.')).toBeVisible();
+    await expect(page.getByText('The height field must be at least 0.1.')).toBeVisible();
+    await expect(page.getByText('The thickness field must be at least 0.1.')).toBeVisible();
+});
+test('verify working of brick calculator by leaving all fields empty', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Brick Calculator Bricks' }).click();
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The length field is required.')).toBeVisible();
+    await expect(page.getByText('The height field is required.')).toBeVisible();
+    await expect(page.getByText('The thickness field is required.')).toBeVisible();
+
+});
