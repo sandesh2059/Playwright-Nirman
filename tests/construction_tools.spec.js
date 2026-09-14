@@ -127,3 +127,33 @@ test('verify working of steel estimator', async ({page}) => {
     await page.getByRole('button', { name: 'Calculate' }).click();
     await expect(page.getByText('1,415.8kg · Steel (TMT)')).toBeVisible();
 });
+
+test('verify working of steel estimator by filling field with 0', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Steel Estimator TMT rod for a' }).click();
+    await page.getByRole('spinbutton', { name: 'Concrete volume' }).click();
+    await page.getByRole('spinbutton', { name: 'Concrete volume' }).fill('0');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The volume cuft field must be at least 0.1.')).toBeVisible();
+});
+
+test('verify working of steel estimator by leaving fields empty', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Steel Estimator TMT rod for a' }).click();
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The volume cuft field is required.')).toBeVisible();
+});
+
+test('verify working of steel estimator by filling fields with negative values', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com:3000/');
+    await page.getByRole('link', { name: 'Try the calculators' }).click();
+    await page.getByRole('link', { name: 'Steel Estimator TMT rod for a' }).click();
+    await page.getByRole('spinbutton', { name: 'Concrete volume' }).click();
+    await page.getByRole('spinbutton', { name: 'Concrete volume' }).fill('-500');
+    await page.getByRole('button', { name: 'Calculate' }).click();
+    await expect(page.getByText('The volume cuft field must be at least 0.1.')).toBeVisible();
+});
+
+
