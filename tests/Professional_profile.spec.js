@@ -1,0 +1,83 @@
+import {test, expect} from '@playwright/test';
+
+test('verify working of professional profile button', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com/php84/apps/nirman-ai-backend/public/admin/login');
+    await page.getByRole('textbox', { name: 'Email address*' }).fill('admin@nirman.ai');
+    await page.getByRole('textbox', { name: 'Password*' }).fill('password');
+    await page.getByRole('button', { name: 'Sign in' }).click();
+    await page.getByRole('link', { name: 'Professional Profiles' }).click();
+    await page.goto('https://dev6.yigserver.com/php84/apps/nirman-ai-backend/public/admin/professional-profiles');
+    await expect(page.getByRole('heading', { name: 'Professional Profiles' })).toBeVisible();
+});
+
+test('create professional profile with all fields', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com/php84/apps/nirman-ai-backend/public/admin/login');
+    const email = 'jack.sparrow' + Date.now() + '@example.com';
+    await page.getByRole('textbox', { name: 'Email address*' }).fill('admin@nirman.ai');
+    await page.getByRole('textbox', { name: 'Password*' }).fill('password');
+    await page.getByRole('button', { name: 'Sign in' }).click();
+    await page.getByRole('link', { name: 'Users' }).click();
+    await page.getByRole('link', { name: 'New user' }).click();
+    const nameField = page.getByRole('textbox', { name: 'Name*' });
+    const emailField = page.getByRole('textbox', { name: 'Email address*' });
+    const passwordField = page.getByRole('textbox', { name: 'Password*' });
+    await nameField.fill('jack sparrow');
+    await expect(nameField).toHaveValue('jack sparrow');
+    await emailField.fill(email);
+    await expect(emailField).toHaveValue(email);
+    await passwordField.fill('Testuser@12');
+    await expect(passwordField).toHaveValue('Testuser@12');
+    await page.getByRole('button', { name: 'Select an option' }).click();
+    await page.getByRole('option', { name: 'engineer', exact: true }).click();
+    await page.getByLabel('Default role').selectOption('engineer');
+    await page.getByRole('button', { name: 'Create', exact: true }).click();
+    await expect(page.getByRole('status')).toContainText('Created');
+    await page.getByRole('link', { name: 'Professional Profiles' }).click();
+    await page.getByRole('link', { name: 'New professional profile' }).click();
+    await page.getByRole('button', { name: 'Select an option' }).first().click();
+    await page.getByRole('textbox', { name: 'Search' }).fill(email);
+    await page.getByRole('option', {name: `jack sparrow (${email.replace('.com', '')}`}).click();
+    await page.getByLabel('Kind*').selectOption('engineer');
+    await page.getByRole('spinbutton', { name: 'Experience years*' }).click();
+    await page.getByRole('spinbutton', { name: 'Experience years*' }).fill('5');
+    await page.getByRole('spinbutton', { name: 'Success rate*' }).click();
+    await page.getByRole('spinbutton', { name: 'Success rate*' }).fill('100');
+    await page.getByRole('spinbutton', { name: 'Total projects*' }).click();
+    await page.getByRole('spinbutton', { name: 'Total projects*' }).fill('10');
+    await page.getByLabel('Verification status*').selectOption('verified');
+    await page.getByLabel('Subscription tier*').selectOption('');
+    await page.getByLabel('Subscription tier*').selectOption('general');
+    await page.getByRole('spinbutton', { name: 'Rating*' }).click();
+    await page.getByRole('spinbutton', { name: 'Rating*' }).fill('9');
+    await page.getByRole('spinbutton', { name: 'Reviews count*' }).click();
+    await page.getByRole('spinbutton', { name: 'Reviews count*' }).fill('10');
+    await page.getByRole('button', { name: 'Create', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Created' })).toBeVisible();
+});
+
+test('create professional profile without selecting any user and filling all fields', async ({page}) => {
+    await page.goto('https://dev6.yigserver.com/php84/apps/nirman-ai-backend/public/admin/login');
+    await page.getByRole('textbox', { name: 'Email address*' }).fill('admin@nirman.ai');
+    await page.getByRole('textbox', { name: 'Password*' }).fill('password');
+    await page.getByRole('button', { name: 'Sign in' }).click();
+    await page.getByRole('link', { name: 'Professional Profiles' }).click();
+    await page.getByRole('link', { name: 'New professional profile' }).click();
+    await page.getByRole('button', { name: 'Select an option' }).first().click();
+    await page.getByLabel('Kind*').selectOption('engineer');
+    await page.getByRole('spinbutton', { name: 'Experience years*' }).click();
+    await page.getByRole('spinbutton', { name: 'Experience years*' }).fill('5');
+    await page.getByRole('spinbutton', { name: 'Success rate*' }).click();
+    await page.getByRole('spinbutton', { name: 'Success rate*' }).fill('100');
+    await page.getByRole('spinbutton', { name: 'Total projects*' }).click();
+    await page.getByRole('spinbutton', { name: 'Total projects*' }).fill('10');
+    await page.getByLabel('Verification status*').selectOption('verified');
+    await page.getByLabel('Subscription tier*').selectOption('');
+    await page.getByLabel('Subscription tier*').selectOption('general');
+    await page.getByRole('spinbutton', { name: 'Rating*' }).click();
+    await page.getByRole('spinbutton', { name: 'Rating*' }).fill('9');
+    await page.getByRole('spinbutton', { name: 'Reviews count*' }).click();
+    await page.getByRole('spinbutton', { name: 'Reviews count*' }).fill('10');
+    await page.getByRole('button', { name: 'Create', exact: true }).click();
+    await expect(page.getByText('The user field is required.')).toBeVisible();
+    
+});
